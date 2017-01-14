@@ -3,7 +3,7 @@ var DocumentDbClient = require('documentdb').DocumentClient;
 var DocDbUtils = {
     getOrCreateDatabase: function(client, databaseId, callback){
         var querySpec = {
-            query: 'SELECT * FROM root r WHERE r.Id=@id',
+            query: 'SELECT * FROM root r WHERE r.id=@id',
             parameters:[{
                 name:'@id',
                 value: databaseId
@@ -19,7 +19,10 @@ var DocDbUtils = {
                         id:databaseId
                     };
                     client.createDatabase(databaseSpec,function(err,created){
-                        callback(null,created);
+                        if(err)
+                            callback(err);
+                        else
+                            callback(null,created);
                     });
                 }else{
                     callback(null,results[0]);
@@ -30,7 +33,7 @@ var DocDbUtils = {
 
     getOrCreateCollection:function(client,databaselink,collectionId,callback){
         var querySpec ={
-            query: 'SELECT * FROM root r WHERE r.Id = @id',
+            query: 'SELECT * FROM root r WHERE r.id = @id',
             parameters:[{
                 name:'@id',
                 value: collectionId

@@ -18,7 +18,7 @@ var UrlDataAccess = function(documentDbClient,databaseId, collectionId){
             }
             self.database = database;
 
-            docDbUtils.getOrCreateCollection(documentDbClient,self.database.__self, collectionId,function(err,collection){
+            docDbUtils.getOrCreateCollection(documentDbClient,self.database._self, collectionId,function(err,collection){
                 if(err){
                     callback(err);
                 }
