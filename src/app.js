@@ -1,6 +1,21 @@
 var express = require('express');
-var app = express();
 var path = require('path');
+var UrlDataAccess = require('./models/urls');
+var config = require('config');
+var DocumentDbClient = require('documentdb').DocumentClient;
+
+var docDbClient = new DocumentDbClient(config.get('DocumentDb.AccountUrl'),{
+    masterKey : config.get('DocumentDb.AccountKey')
+});
+var urlDataAccess = new UrlDataAccess(docDbClient, 'UrlShortner','Urls');
+urlDataAccess.init(function(err){
+    if(err){
+        console.log(err);   
+    }else{
+        console.log('Connected successfully');
+    }
+});
+var app = express();
 
 app.use(express.static(path.join(__dirname,'public')));
 
@@ -16,6 +31,8 @@ app.post('/api/shorten',function(req,res){
 app.get('/:encodedId',function(req,res){
     //redirect to the original url
 });
+
+
 
 app.listen(3000,function(){
     console.log('Server listening to port number 3000');

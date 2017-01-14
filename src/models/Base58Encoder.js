@@ -1,9 +1,9 @@
-var Base58Encoder = function(){
-    var self = this;
-    var alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
-    var base = alphabet.length;
 
-    self.encode = function(num){
+var alphabet = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+var base = alphabet.length;
+
+var Base58Encoder = {
+    encode : function(num){
         var encoded = '';
         while(num){
             var remainder = num % base;
@@ -11,9 +11,9 @@ var Base58Encoder = function(){
             encoded = alphabet[remainder].toString() + encoded;
         }
         return encoded;
-    };
+    },
 
-    self.decode = function(encoded){
+    decode : function(encoded){
         var decoded = 0;
         while(encoded){
             var index = alphabet.indexOf(str[0]);
@@ -22,9 +22,7 @@ var Base58Encoder = function(){
             encoded = encoded.substring(1);
         }
         return decoded;
-    };
-
-    return self;
+    }
 };
 
 module.exports = Base58Encoder;
